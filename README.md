@@ -25,7 +25,7 @@ interact with dnsdiag.
 * Terraform
     * A project path is required to be specified in the file `inventory/group_vars/all/vultr.yml`
     * This must be write-accessible by Ansible, as Ansible will place templated terraform files here. 
-* Vultr Ansible Collection ( `ansible-galaxy install -r collections/requirements.yml` )
+* Vultr & Terraform Ansible Collections ( `ansible-galaxy install -r collections/requirements.yml` )
 
 ## Usage
 
