@@ -1,0 +1,4 @@
+plugin: vultr
+strict: false
+groups:
+  dnsdiag: true

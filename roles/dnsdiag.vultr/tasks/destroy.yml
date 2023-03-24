@@ -1,0 +1,7 @@
+---
+# tasks for dnsdiag.vultr - Destroy DNS Diag Instances
+- name: Destroy Vultr instances
+  community.general.terraform:
+    project_path: "{{ terraform_project_path }}"
+    state: absent
+    force_init: true

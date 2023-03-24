@@ -1,0 +1,5 @@
+- hosts: localhost
+  vars:
+    vultr_operation: destroy
+  roles: 
+    - role: dnsdiag.vultr

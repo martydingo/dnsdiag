@@ -1,0 +1,31 @@
+---
+# tasks file for dnsdiag.dnsdiag - dnsping
+
+  - fail:
+      msg: "Variable {{ item }} is not defined"
+    when: "{{ item }} is not defined"
+    loop:
+      - dnsdiag_rdtype
+      - dnsdiag_qname
+
+  - name: Run dnsping via dnsdiag docker container
+    community.docker.docker_container:
+      name: dnsdiag
+      image: farrokhi/dnsdiag
+      command: 
+        - python3 
+        - dnsping.py 
+        - --dnssec 
+        - -t 
+        - "{{ dnsdiag_rdtype }}"
+        - "{{ dnsdiag_qname }}"
+      detach: false
+      cleanup: true
+    register: dnsdiag_ping_result
+    until: dnsdiag_ping_result is succeeded
+    retries: 3
+    delay: 3
+    
+  - name: Print dnsping.py result
+    debug:
+      msg: "{{ dnsdiag_ping_result.container.Output | split('\n') }}"

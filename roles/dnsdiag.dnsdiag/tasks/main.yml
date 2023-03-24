@@ -1,0 +1,20 @@
+---
+# tasks file for dnsdiag.dnsdiag
+
+  - name: Fail if required variables are not defined
+    fail:
+      msg: "Variable {{ item }} is not defined"
+    when: "{{ item }} is not defined"
+    loop:
+      - dnsdiag_operation
+
+  - name: Install required python modules
+    ansible.builtin.command: pip3 install requests setuptools
+
+  - name: include_tasks for dnsdiag.dnsdiag - ping
+    include_tasks: ping.yml
+    when: dnsdiag_operation == "ping"
+
+  - name: include_tasks for dnsdiag.dnsdiag - traceroute
+    include_tasks: traceroute.yml
+    when: dnsdiag_operation == "traceroute"

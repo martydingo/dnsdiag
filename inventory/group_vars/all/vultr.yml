@@ -1,0 +1,19 @@
+---
+# vars file for vultr
+
+## Terraform Parameters
+
+terraform_project_path: "./.terraform"
+
+## Vultr Parameters
+vultr_api_key: 1234567890ABCDEF
+vultr_regions:
+  - "lhr"
+
+
+# vultr_plan: "vc2-1c-1gb" # 1 vCPU, 1 GB RAM, 25 GB SSD, $5/mo / $0.007/hr
+vultr_plan: "vhp-1c-1gb-amd" # 1 vCPU, 1 GB RAM, 25 GB NVMe SSD, AMD, $6/mo / $0.009/hr
+vultr_app_id: 17 # Docker on CentOS 7 x64
+
+## SSH Key Parameters
+vultr_ssh_key_id: "<UUID-OF-SSH-KEY-SAVED-ON-VULTR>"

@@ -1,0 +1,5 @@
+- hosts: localhost
+  vars:
+    vultr_operation: create
+  roles: 
+    - role: dnsdiag.vultr

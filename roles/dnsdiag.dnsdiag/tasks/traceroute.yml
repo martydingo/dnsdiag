@@ -1,0 +1,55 @@
+---
+# tasks file for dnsdiag.dnsdiag - dnstraceroute
+
+  - fail:
+      msg: "Variable {{ item }} is not defined"
+    when: "{{ item }} is not defined"
+    loop:
+      - dnsdiag_rdtype
+      - dnsdiag_qname
+
+  - name: Run dnstraceroute via dnsdiag docker container using default resolver if dnsdiag_resolver is not defined
+    community.docker.docker_container:
+      name: dnsdiag
+      image: farrokhi/dnsdiag
+      command: 
+        - python3 
+        - dnstraceroute.py 
+        - --expert 
+        - --asn
+        - --type
+        - "{{ dnsdiag_rdtype }}"
+        - "{{ dnsdiag_qname }}"
+      detach: false
+      cleanup: true
+    register: dnsdiag_traceroute_result
+    until: dnsdiag_traceroute_result is succeeded
+    retries: 3
+    delay: 3
+    when: dnsdiag_resolver is not defined
+
+  - name: Run dnstraceroute via dnsdiag docker container using specified resolver if dnsdiag_resolver is defined
+    community.docker.docker_container:
+      name: dnsdiag
+      image: farrokhi/dnsdiag
+      command: 
+        - python3 
+        - dnstraceroute.py 
+        - --expert 
+        - --asn
+        - --server 
+        - "{{ dnsdiag_resolver }}"
+        - --type
+        - "{{ dnsdiag_rdtype }}"
+        - "{{ dnsdiag_qname }}"
+      detach: false
+      cleanup: true
+    register: dnsdiag_traceroute_result
+    until: dnsdiag_traceroute_result is succeeded
+    retries: 3
+    delay: 3
+    when: dnsdiag_resolver is defined
+
+  - name: Print dnstraceroute.py result
+    debug:
+      msg: "{{ dnsdiag_traceroute_result.container.Output | replace('\t', '    ') | split('\n') }}"

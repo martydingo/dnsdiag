@@ -1,0 +1,20 @@
+---
+# tasks file for Vultr
+
+- name: Generate dnsdiag terraform
+  template:
+    src: "terraform/main.tf.j2"
+    dest: "{{ terraform_project_path }}/main.tf"
+  
+- name: Include creation tasks if tags include create
+  include_tasks:
+    file: create.yml
+  when: vultr_operation == "create"
+
+- name : Include destroy tasks if tags include destroy
+  include_tasks:
+    file: destroy.yml
+  when: vultr_operation == "destroy"
+
+- name: Refresh inventory
+  meta: refresh_inventory

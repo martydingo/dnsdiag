@@ -1,0 +1,15 @@
+---
+# tasks file for dnsdiag.dnsutils
+
+- name: Install dnsutils
+  ansible.builtin.package:
+    name: bind-utils
+    state: present
+
+- name: Run dig to retrieve nameserver name
+  ansible.builtin.command: "dig @{{ dnsdiag_resolver }} ch txt hostname.bind +short"
+  register: dig_result 
+
+- name: Print dig result
+  ansible.builtin.debug:
+    msg: "{{ dig_result.stdout_lines }}"

@@ -1,0 +1,6 @@
+- hosts: dnsdiag
+  roles: 
+    - role: dnsdiag.dnsutils
+      when: dnsdiag_dnsutils is defined
+    - role: dnsdiag.dnsdiag
+

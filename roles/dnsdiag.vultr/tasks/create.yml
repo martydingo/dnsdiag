@@ -1,0 +1,8 @@
+---
+# tasks for dnsdiag.vultr - Create DNS Diag Instances
+- name: Create Vultr instances
+  community.general.terraform:
+    project_path: "{{ terraform_project_path }}"
+    state: present
+    force_init: true
+  register: vultr_hosts

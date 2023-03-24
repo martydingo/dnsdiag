@@ -1,0 +1,44 @@
+terraform {
+  required_providers {
+    vultr = {
+      source  = "vultr/vultr"
+      version = "2.12.1"
+    }
+  }
+}
+
+# Configure the Vultr Provider
+provider "vultr" {
+  api_key     = "{{ vultr_api_key }}"
+  rate_limit  = 100
+  retry_limit = 3
+}
+
+{% for region in vultr_regions %}
+data "vultr_instance" "dnsdiag_{{region}}" {
+  filter {
+    name   = "id"
+    values = [vultr_instance.dnsdiag_{{region}}.id]
+  }
+}
+
+{% endfor %}
+{% for region in vultr_regions %}
+resource "vultr_instance" "dnsdiag_{{region}}" {
+  plan     = "{{vultr_plan}}"
+  region   = "{{region}}"
+  app_id   = "{{vultr_app_id}}"
+  hostname = "{{region}}-dnsdiag"
+  label = "{{region}}-dnsdiag"
+  ssh_key_ids = ["{{ vultr_ssh_key_id }}"]
+  enable_ipv6 = true
+  tags = ["dnsdiag", "{{region}}"]
+}
+
+{% endfor %}
+{% for region in vultr_regions %}
+output "dnsdiag_{{region}}" {
+  value = data.vultr_instance.dnsdiag_{{region}}
+}
+
+{% endfor %}

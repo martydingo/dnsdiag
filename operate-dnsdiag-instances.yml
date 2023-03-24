@@ -1,0 +1,6 @@
+- name: Create DNS Diag Instances
+  ansible.builtin.import_playbook: create-dnsdiag-instances.yml
+- name: Run DNS Diag Instances
+  ansible.builtin.import_playbook: run-dnsdiag-instances.yml
+- name: Destroy DNS Diag Instances
+  ansible.builtin.import_playbook: destroy-dnsdiag-instances.yml
