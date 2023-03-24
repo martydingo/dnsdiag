@@ -1,4 +1,4 @@
-plugin: vultr
+plugin: ngine_io.vultr
 strict: false
 groups:
   dnsdiag: true
