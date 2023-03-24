@@ -1,6 +1,11 @@
 ---
 # tasks file for Vultr
 
+- name: Create terraform project directory if it doesn't exist
+  file:
+    path: "{{ terraform_project_path }}"
+    state: directory
+
 - name: Generate dnsdiag terraform
   template:
     src: "terraform/main.tf.j2"
