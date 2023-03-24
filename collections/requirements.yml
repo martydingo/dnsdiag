@@ -1,3 +1,3 @@
 collections:
   - name: ngine_io.vultr
-  - name: community.general.terraform
+  - name: community.general
