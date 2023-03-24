@@ -1,4 +1,5 @@
 plugin: vultr.cloud.vultr
+api_key: "{{ vultr_api_key }}"
 strict: false
 groups:
   dnsdiag: true
